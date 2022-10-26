@@ -14,7 +14,7 @@ The values of the potentiometers should be read by the arduino uno board, then c
 
 tema_1.ino
 
-##Photo
+## Photo
 
 ![image](https://user-images.githubusercontent.com/38132701/197337422-8c798450-c0f8-4650-82fb-f66a8862aeaa.png)
 
