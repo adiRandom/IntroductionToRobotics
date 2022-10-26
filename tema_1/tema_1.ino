@@ -1,14 +1,14 @@
-uint8_t RED_PIN = 9;
-uint8_t GREEN_PIN = 11;
-uint8_t BLUE_PIN = 10;
-uint8_t RED_ANALOG_INPUT_PIN = A0;
-uint8_t GREEN_ANALOG_INPUT_PIN = A1;
-uint8_t BLUE_ANALOG_INPUT_PIN = A2;
+uint8_t const RED_PIN = 9;
+uint8_t const GREEN_PIN = 11;
+uint8_t const BLUE_PIN = 10;
+uint8_t const RED_ANALOG_INPUT_PIN = A0;
+uint8_t const GREEN_ANALOG_INPUT_PIN = A1;
+uint8_t const BLUE_ANALOG_INPUT_PIN = A2;
 
-uint16_t ANALOG_INPUT_MIN = 0;
-uint16_t ANALOG_INPUT_MAX = 1023;
-uint8_t LED_MIN = 0;
-uint8_t LED_MAX = 255;
+uint16_t const ANALOG_INPUT_MIN = 0;
+uint16_t const ANALOG_INPUT_MAX = 1023;
+uint8_t const LED_MIN = 0;
+uint8_t const LED_MAX = 255;
 
 struct Color {
   float red;
