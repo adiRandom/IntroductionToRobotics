@@ -25,7 +25,7 @@ tema_1/tema_1.ino
 ## Video
 https://photos.app.goo.gl/pk8tyzWqX2WVh13Y8
 
-# Homework 1
+# Homework 2
 
 ## Requirement
 
