@@ -40,6 +40,7 @@ uint8_t const JOY_BTN_PIN = 12;
 // The thresholds of the joystick from which we consider the input as being on the positive semi-axis or on the negative
 uint16_t const POSITIVE_THRESHOLD = 700;
 uint16_t const NEGATIVE_THRESHOLD = 300;
+uint8_t const INPUT_DEBOUNCE_TIME = 50;
 
 uint16_t const BLINK_INTERVAL = 500;
 
@@ -52,11 +53,15 @@ bool shouldReadJoyDir = true;
 int8_t activeJoyAxisPin = -1;
 
 uint8_t currentLedPinIndex = 0;
-bool ledState[DISPLAY_PINS_SIZE] = { LOW };
+byte ledState[DISPLAY_PINS_SIZE] = { LOW };
 bool shouldCurrentLedBlink = true;
 uint8_t blinkState = LOW;
 uint32_t lastBlinkTime = 0;
 bool canCurrentLedMove = true;
+
+byte lastButtonReadingState = HIGH;
+byte joyBtnState = HIGH;
+uint32_t lastButtonReadingDebounce = 0;
 
 enum Direction {
   UP,
@@ -153,15 +158,42 @@ void blinkLed() {
 
 void showLeds() {
   for (uint8_t i = 0; i < DISPLAY_PINS_SIZE; i++) {
-    if (i == currentLedPinIndex) {
-      if (shouldCurrentLedBlink) {
-        blinkLed();
-        digitalWrite(DISPLAY_PINS[i], blinkState);
-      }
+    if (i == currentLedPinIndex && shouldCurrentLedBlink) {
+      blinkLed();
+      digitalWrite(DISPLAY_PINS[i], blinkState);
     } else {
       digitalWrite(DISPLAY_PINS[i], ledState[i]);
     }
   }
+}
+
+void readButtonState(void (*onStateChange)(byte), uint8_t notifyOn = CHANGE) {
+  byte buttonReading = digitalRead(JOY_BTN_PIN);
+
+  if (buttonReading != lastButtonReadingState) {
+    lastButtonReadingDebounce = millis();
+  }
+
+  if (millis() - lastButtonReadingDebounce > INPUT_DEBOUNCE_TIME) {
+    if (buttonReading != joyBtnState) {
+      joyBtnState = buttonReading;
+
+      if (
+        (notifyOn == CHANGE)
+        || (notifyOn == RISING && joyBtnState == HIGH)
+        || (notifyOn == FALLING && joyBtnState == LOW)
+      ) {
+        onStateChange(joyBtnState);
+      }
+    }
+  }
+
+  lastButtonReadingState = buttonReading;
+}
+
+void onButtobStateChange(byte state) {
+  canCurrentLedMove = !canCurrentLedMove;
+  shouldCurrentLedBlink = !shouldCurrentLedBlink;
 }
 
 void moveCurrentLed(Direction dir) {
@@ -172,14 +204,23 @@ void moveCurrentLed(Direction dir) {
   }
 }
 
+void chnageCurrentLedStateOnJoyMove(Direction dir) {
+  if (dir == Direction::LEFT || dir == Direction::RIGHT) {
+    ledState[currentLedPinIndex] = !ledState[currentLedPinIndex];
+  }
+}
+
 void handleInput() {
   Direction dir = getJoyDirection();
+  readButtonState(onButtobStateChange, FALLING);
 
   if (dir == Direction::NONE) {
     return;
   }
   if (canCurrentLedMove) {
     moveCurrentLed(dir);
+  } else {
+    chnageCurrentLedStateOnJoyMove(dir);
   }
 }
 
