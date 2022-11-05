@@ -62,9 +62,7 @@ void readButtonState(void (*onStateChange)(byte), uint8_t notifyOn = CHANGE) {
     if (buttonReading != buttonState) {
       buttonState = buttonReading;
 
-      if ((notifyOn == CHANGE)
-          || (notifyOn == RISING && buttonState == HIGH)
-          || (notifyOn == FALLING && buttonState == LOW)) {
+      if ((notifyOn == CHANGE) || (notifyOn == RISING && buttonState == HIGH) || (notifyOn == FALLING && buttonState == LOW)) {
         onStateChange(buttonState);
       }
     }
