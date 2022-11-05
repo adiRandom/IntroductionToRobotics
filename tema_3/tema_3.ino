@@ -18,6 +18,21 @@ uint8_t const DISPLAY_PINS[DISPLAY_PINS_SIZE] = {
   DISPLAY_PIN_DP
 };
 
+// The first dimension is the display led pin index
+// The second dimension is the led pin index that shold be selected if we move into the direction indicated by the second index from the pin indicated by the first index
+// The indexing of the second dimension coresponds to the Direction enum
+// -1 indicates we can't select any display led in that direction
+int8_t const LED_MOVE_GRAPH[DISPLAY_PINS_SIZE][4] = {
+  { -1, 3, 5, 1 },
+  { -1, 2, 0, -1 },
+  { 1, -1, 3, 7 },
+  { 6, -1, 4, 2 },
+  { 5, -1, -1, 3 },
+  { -1, 4, -1, 0 },
+  { 0, 3, -1, -1 },
+  { -1, -1, 2, -1 },
+};
+
 uint8_t const JOY_X_AXIS_PIN = A0;
 uint8_t const JOY_Y_AXIS_PIN = A1;
 uint8_t const JOY_BTN_PIN = 12;
@@ -41,6 +56,7 @@ bool ledState[DISPLAY_PINS_SIZE] = { LOW };
 bool shouldCurrentLedBlink = true;
 uint8_t blinkState = LOW;
 uint32_t lastBlinkTime = 0;
+bool canCurrentLedMove = true;
 
 enum Direction {
   UP,
@@ -148,10 +164,26 @@ void showLeds() {
   }
 }
 
+void moveCurrentLed(Direction dir) {
+  int8_t nextLedPinIndex = LED_MOVE_GRAPH[currentLedPinIndex][dir];
+
+  if (nextLedPinIndex != -1) {
+    currentLedPinIndex = nextLedPinIndex;
+  }
+}
+
 void handleInput() {
+  Direction dir = getJoyDirection();
+
+  if (dir == Direction::NONE) {
+    return;
+  }
+  if (canCurrentLedMove) {
+    moveCurrentLed(dir);
+  }
 }
 
 void loop() {
-  Direction dir = getJoyDirection();
   showLeds();
+  handleInput();
 }
