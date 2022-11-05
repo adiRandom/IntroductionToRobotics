@@ -23,7 +23,7 @@ uint8_t const DISPLAY_PINS[DISPLAY_PINS_SIZE] = {
 // The indexing of the second dimension coresponds to the Direction enum
 // -1 indicates we can't select any display led in that direction
 int8_t const LED_MOVE_GRAPH[DISPLAY_PINS_SIZE][4] = {
-  { -1, 3, 5, 1 },
+  { -1, 6, 5, 1 },
   { -1, 2, 0, -1 },
   { 1, -1, 3, 7 },
   { 6, -1, 4, 2 },
@@ -192,6 +192,12 @@ void readButtonState(void (*onStateChange)(byte), uint8_t notifyOn = CHANGE) {
 }
 
 void onButtobStateChange(byte state) {
+  if (canCurrentLedMove) {
+    // We are transitioning in selection state
+    // Set the current led to the last blinking state
+    ledState[currentLedPinIndex] = blinkState;
+  }
+
   canCurrentLedMove = !canCurrentLedMove;
   shouldCurrentLedBlink = !shouldCurrentLedBlink;
 }
