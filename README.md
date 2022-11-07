@@ -5,6 +5,7 @@ This repository will contain documentation, code and assets for homeworks in the
 # Table of contents
 - [Homework 1](#homework-1)
 - [Homework 2](#homework-2)
+- [Homework 3](#homework-3)
 
 
 # Homework 1
@@ -52,4 +53,33 @@ tema_2/tema_2.ino
 ![image](https://user-images.githubusercontent.com/38132701/199050479-5b611ed3-848c-47f9-ac10-5e45e4c251f1.png)
 
 ## Video
+
 https://photos.app.goo.gl/Exs7KoChwKhdcjER8
+
+
+# Homework 3
+
+## Requirement
+
+Using a joystick and a seven segments display, create a small canvas that you can draw on.
+Initially, all but one segments on the display are off, with one blinking. 
+
+The blinking segment can be moved around using the joystick
+It can only be moved around to the neighbour segments (so no diagonal moves, segment skips, etc.)
+When cliking the joystick, we select the blinking segment and we can decide, moving the joystick left or right, wether that segment is active or inactive. 
+Pressing the joystick again unselects the segment and lets us move a blinking segment around the display, keeping the previously selected one in the state we chose
+
+Long pressing the joystick resets the display
+
+
+## Files 
+
+tema_3/tema_3.ino
+
+## Photos
+
+![image](https://user-images.githubusercontent.com/38132701/200429301-48a4817b-8d8f-4bcb-b214-a208d29919e0.png)
+
+## Video
+
+https://photos.app.goo.gl/jEzMFZLG985VzwXg9
