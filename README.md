@@ -50,7 +50,7 @@ tema_2/tema_2.ino
 
 ## Photo
 
-![image](https://user-images.githubusercontent.com/38132701/199050479-5b611ed3-848c-47f9-ac10-5e45e4c251f1.png)
+<img src="https://user-images.githubusercontent.com/38132701/199050479-5b611ed3-848c-47f9-ac10-5e45e4c251f1.png" width="200"/>
 
 ## Video
 
