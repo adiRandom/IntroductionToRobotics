@@ -21,7 +21,7 @@ tema_1/tema_1.ino
 
 ## Photo
 
-![image](https://user-images.githubusercontent.com/38132701/197337422-8c798450-c0f8-4650-82fb-f66a8862aeaa.png)
+<img src="https://user-images.githubusercontent.com/38132701/197337422-8c798450-c0f8-4650-82fb-f66a8862aeaa.png" width="350"/>
 
 ## Video
 https://photos.app.goo.gl/pk8tyzWqX2WVh13Y8
@@ -50,7 +50,7 @@ tema_2/tema_2.ino
 
 ## Photo
 
-<img src="https://user-images.githubusercontent.com/38132701/199050479-5b611ed3-848c-47f9-ac10-5e45e4c251f1.png" width="200"/>
+<img src="https://user-images.githubusercontent.com/38132701/199050479-5b611ed3-848c-47f9-ac10-5e45e4c251f1.png" width="350"/>
 
 ## Video
 
@@ -78,7 +78,7 @@ tema_3/tema_3.ino
 
 ## Photos
 
-![image](https://user-images.githubusercontent.com/38132701/200429301-48a4817b-8d8f-4bcb-b214-a208d29919e0.png)
+<img src="https://user-images.githubusercontent.com/38132701/200429301-48a4817b-8d8f-4bcb-b214-a208d29919e0.png" width="350"/>
 
 ## Video
 
