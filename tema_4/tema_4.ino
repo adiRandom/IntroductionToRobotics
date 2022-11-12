@@ -6,7 +6,7 @@ uint8_t const LATCH_PIN = 11;  // STCP to 12 on Shift Register
 uint8_t const CLOCK_PIN = 10;  // SHCP to 11 on Shift Register
 uint8_t const DATA_PIN = 12;   // DS to 14 on Shift Register
 
-uint8_t const DISLAY_D1_PIN = 7;
+uint8_t const DISPLAY_D1_PIN = 7;
 uint8_t const DISPLAY_D2_PIN = 6;
 uint8_t const DISPLAY_D3_PIN = 5;
 uint8_t const DISPLAY_D4_PIN = 4;
@@ -14,7 +14,7 @@ uint8_t const DISPLAY_D4_PIN = 4;
 uint8_t const REG_SIZE = 8;
 
 uint8_t const DISPLAYS[] = {
-  DISLAY_D1_PIN, DISPLAY_D2_PIN, DISPLAY_D3_PIN, DISPLAY_D4_PIN
+  DISPLAY_D4_PIN, DISPLAY_D3_PIN, DISPLAY_D2_PIN, DISPLAY_D1_PIN
 };
 uint8_t const DISPLAY_COUNT = 4;
 uint8_t const ENCODINGS_LENGTH = 16;
@@ -50,6 +50,7 @@ uint16_t const POSITIVE_THRESHOLD = 700;
 uint16_t const NEGATIVE_THRESHOLD = 300;
 uint8_t const INPUT_DEBOUNCE_TIME = 50;
 uint32_t const LONG_PRESS_TIME = 1500;
+uint16_t const BLINK_INTERVAL = 500;
 
 // True if the X axis should be interpreted as the Y axis and vice versa
 // False otherwise
@@ -72,7 +73,7 @@ uint32_t lastButtonReadingDebounce = 0;
 uint32_t joyBtnPressTime = 0;
 
 bool shouldDpBlink = true;
-uint8_t dpBlinkState = LOW;
+uint8_t dpBlinkState = HIGH;
 uint32_t lastBlinkTime = 0;
 
 enum Direction {
@@ -85,12 +86,12 @@ enum Direction {
 
 void pinSetup() {
   // put your setup code here, to run once:
-  pinMode(latchPin, OUTPUT);
-  pinMode(clockPin, OUTPUT);
-  pinMode(dataPin, OUTPUT);
+  pinMode(LATCH_PIN, OUTPUT);
+  pinMode(CLOCK_PIN, OUTPUT);
+  pinMode(DATA_PIN, OUTPUT);
 
-  for (int i = 0; i < displayCount; i++) {
-    pinMode(displayDigits[i], OUTPUT);
+  for (int i = 0; i < DISPLAY_COUNT; i++) {
+    pinMode(DISPLAYS[i], OUTPUT);
   }
   pinMode(JOY_X_AXIS_PIN, INPUT);
   pinMode(JOY_Y_AXIS_PIN, INPUT);
@@ -102,9 +103,8 @@ void resetDisplay() {
     displayState[i] = 0;
   }
 
-  currentLedPinIndex = DISPLAY_PIN_DP_INDEX;
+  currentDisplayIndex = 0;
   shouldDpBlink = true;
-  canCurrentLedMove = true;
   canCycleDisplays = true;
 }
 
@@ -167,8 +167,10 @@ Direction getJoyDirection() {
   return Direction::NONE;
 }
 
-uint8_t getEncodingWithDp(uint8_t displayIndex) {
-  return displayIndex != curentDisplayIndex ? encoding : encoding | dpBlinkState;
+uint8_t getEncodingWithDp(uint8_t encoding, uint8_t displayIndex) {
+  if (displayIndex == 0) {
+  }
+  return displayIndex != currentDisplayIndex ? encoding : (encoding | dpBlinkState);
 }
 
 void blinkDp() {
@@ -228,7 +230,7 @@ void onButtobStateChange(byte state, bool isLongPress) {
   shouldDpBlink = !shouldDpBlink;
 
   if (!shouldDpBlink) {
-    dbBlinkState = HIGH;
+    dpBlinkState = HIGH;
   }
 }
 
@@ -284,7 +286,33 @@ void handleInput() {
   }
 }
 
+void writeReg(uint8_t encoding) {
+  // ST_CP LOW to keep LEDs from changing while reading serial data
+  digitalWrite(LATCH_PIN, LOW);
+  // Shift out the bits
+  shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, encoding);
+  /* ST_CP on Rising to move the data from shift register
+     * to storage register, making the bits available for output.
+     */
+  digitalWrite(LATCH_PIN, HIGH);
+}
 
+void setDisplay(uint8_t displayIndex, uint8_t encoding) {
+  for (int i = 0; i < DISPLAY_COUNT; i++) {
+    digitalWrite(DISPLAYS[i], HIGH);  // turn off all the displays
+  }
+
+  writeReg(encoding);
+  digitalWrite(DISPLAYS[displayIndex], LOW);  // activate the display you want to use
+}
+
+void printDisplays() {
+  blinkDp();
+  for (int i = 0; i < DISPLAY_COUNT; i++) {
+    setDisplay(i, getEncodingWithDp(ENCODINGS[displayState[i]], i));
+    delay(5);
+  }
+}
 
 void setup() {
   pinSetup();
@@ -292,5 +320,6 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  handleInput();
+  printDisplays();
 }
