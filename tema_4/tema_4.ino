@@ -103,7 +103,7 @@ void resetDisplay() {
     displayState[i] = 0;
   }
 
-  currentDisplayIndex = 0;
+  currentDisplayIndex = DISPLAY_COUNT - 1;
   shouldDpBlink = true;
   canCycleDisplays = true;
 }
@@ -220,7 +220,7 @@ void readButtonState(void (*onStateChange)(byte, bool), uint8_t notifyOn = CHANG
   lastButtonReadingState = buttonReading;
 }
 
-void onButtobStateChange(byte state, bool isLongPress) {
+void onButtonStateChange(byte state, bool isLongPress) {
   if (isLongPress) {
     resetDisplay();
     return;
@@ -257,7 +257,7 @@ void updateDigit(Direction dir) {
   switch (dir) {
     case Direction::UP:
       {
-        displayState[currentDisplayIndex] = displayState[currentDisplayIndex] % ENCODINGS_LENGTH;
+        displayState[currentDisplayIndex] = (displayState[currentDisplayIndex] + 1) % ENCODINGS_LENGTH;
         break;
       }
     case Direction::DOWN:
@@ -274,7 +274,7 @@ void updateDigit(Direction dir) {
 
 void handleInput() {
   Direction dir = getJoyDirection();
-  readButtonState(onButtobStateChange, RISING);
+  readButtonState(onButtonStateChange, RISING);
 
   if (dir == Direction::NONE) {
     return;
@@ -307,7 +307,9 @@ void setDisplay(uint8_t displayIndex, uint8_t encoding) {
 }
 
 void printDisplays() {
-  blinkDp();
+  if (shouldDpBlink) {
+    blinkDp();
+  }
   for (int i = 0; i < DISPLAY_COUNT; i++) {
     setDisplay(i, getEncodingWithDp(ENCODINGS[displayState[i]], i));
     delay(5);
