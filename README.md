@@ -6,6 +6,7 @@ This repository will contain documentation, code and assets for homeworks in the
 - [Homework 1](#homework-1)
 - [Homework 2](#homework-2)
 - [Homework 3](#homework-3)
+- [Homework 4](#homework-4)
 
 
 # Homework 1
@@ -83,3 +84,25 @@ tema_3/tema_3.ino
 ## Video
 
 https://photos.app.goo.gl/jEzMFZLG985VzwXg9
+
+
+# Homework 4
+
+## Requirement
+
+Using 4 7-segment displays and a joystick, display a 4 digit number. 
+Using the joysticks one axis, select one of the 4 displays, select it pressing the button and then control the digit on the display with the other axis 
+Each dispay can show a hexadecimal number
+A shift register needs to be used to control the 4 displays
+
+## Files
+
+tema_4/tema_4.ino
+
+## Photos
+
+<img src="https://user-images.githubusercontent.com/38132701/201729786-cd30629c-c7b9-4cec-b21e-9063b8cb7db5.png" width="350'/>
+
+## Video
+
+https://photos.app.goo.gl/w6KFYy8ammKjMtXw5
