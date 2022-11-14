@@ -101,8 +101,8 @@ tema_4/tema_4.ino
 
 ## Photos
 
-<img src="https://user-images.githubusercontent.com/38132701/201729786-cd30629c-c7b9-4cec-b21e-9063b8cb7db5.png" width="350'/>
+<img src="https://user-images.githubusercontent.com/38132701/201729786-cd30629c-c7b9-4cec-b21e-9063b8cb7db5.png" width="350"/>
 
 ## Video
 
-https://photos.app.goo.gl/w6KFYy8ammKjMtXw5
+https://photos.app.goo.gl/EA1Xu4bEBw2BjH46A
