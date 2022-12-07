@@ -7,6 +7,7 @@ This repository will contain documentation, code and assets for homeworks in the
 - [Homework 2](#homework-2)
 - [Homework 3](#homework-3)
 - [Homework 4](#homework-4)
+- [Homework 5](#homework-5)
 
 
 # Homework 1
@@ -106,3 +107,53 @@ tema_4/tema_4.ino
 ## Video
 
 https://photos.app.goo.gl/EA1Xu4bEBw2BjH46A
+
+
+# Homework 5
+
+## Requirement
+
+Create the menu for the led matrix game using an LCD display
+The menu should have:
+
+- An intro screen
+- An option to start the game
+- A settings page with
+  - Brightness
+  - Difficulty
+  - Player name
+  - Reset highscore
+  - Volume
+- An about screen
+- A help screen
+- A highscore screen
+- Option menues for all these screens
+- A simple demo game
+
+The settings should be saved to the EEPROM
+A buzzer should be used to play music
+
+The LCD should display game relates text and icons when the game starts
+
+## What's done
+
+- An intro screen
+- An option to start the game
+- An about screen
+- A help screen
+- Option menues for all these screens (partially - missing highscore option)
+- A simple demo
+
+
+## Files
+
+tema_5/*
+
+
+## Photos
+
+<img src="https://user-images.githubusercontent.com/38132701/206277397-09d9e595-326f-428f-86a7-5251fa8ff0a8.png" width="350"/>
+
+## Video
+
+https://photos.app.goo.gl/GXCuzTCjfRW5twjEA
